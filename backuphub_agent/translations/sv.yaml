@@ -1,0 +1,13 @@
+configuration:
+  backuphub_url:
+    name: BackupHub-adress
+    description: HTTPS-adressen till din BackupHub-server.
+  pairing_code:
+    name: Pairingkod
+    description: Engångskod för pairing som skapas i BackupHub.
+  name:
+    name: Servernamn
+    description: Namnet som visas för Home Assistant-installationen i BackupHub.
+  logs_enabled:
+    name: Loggsynkronisering
+    description: Skicka begränsade loggutdrag från Home Assistant, Supervisor, värden och appar till BackupHub.

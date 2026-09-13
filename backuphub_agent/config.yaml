@@ -1,0 +1,28 @@
+name: BackupHub Agent
+version: "0.1.1"
+slug: backuphub_agent
+description: Sends Home Assistant OS status and optional logs securely to BackupHub
+url: https://github.com/johnhleaf/backuphub-homeassistant-app
+arch:
+  - aarch64
+  - amd64
+  - armv7
+startup: services
+boot: auto
+init: false
+hassio_api: true
+hassio_role: manager
+homeassistant_api: false
+host_network: false
+full_access: false
+docker_api: false
+options:
+  backuphub_url: "https://projectbackup.leafweb.se"
+  pairing_code: ""
+  name: "Home Assistant"
+  logs_enabled: true
+schema:
+  backuphub_url: url
+  pairing_code: str
+  name: str
+  logs_enabled: bool

@@ -1,0 +1,13 @@
+configuration:
+  backuphub_url:
+    name: BackupHub URL
+    description: HTTPS address of your BackupHub server.
+  pairing_code:
+    name: Pairing code
+    description: One-time pairing code created in BackupHub.
+  name:
+    name: Server name
+    description: Name shown for this Home Assistant installation in BackupHub.
+  logs_enabled:
+    name: Log synchronization
+    description: Send bounded log excerpts from Home Assistant, Supervisor, host and apps to BackupHub.
