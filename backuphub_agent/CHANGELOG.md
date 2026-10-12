@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.2
+
+- Adds a minimal 30-second BackupHub keepalive between five-minute full status/log syncs.
+- Enables faster offline detection without collecting extra system metrics.
+
 ## 0.1.1
 
 - Hardened authentication separation between the local Supervisor API and external BackupHub requests.

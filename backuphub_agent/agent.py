@@ -12,7 +12,7 @@ import urllib.request
 import uuid
 from pathlib import Path
 
-VERSION = "0.1.1"
+VERSION = "0.1.2"
 DATA = Path("/data/backuphub.json")
 OPTIONS = Path("/data/options.json")
 SUPERVISOR_BASE = "http://supervisor"
@@ -320,6 +320,17 @@ def heartbeat(state):
     if status != 200:
         raise RuntimeError(f"heartbeat HTTP {status}: {data}")
 
+def ping(state):
+    status, data = backuphub(
+        state["backuphub_url"] + "/api/server-agent/v1/ping",
+        method="POST",
+        body={"agent_id": state["agent_id"], "agent_version": VERSION, "reported_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())},
+        token=state["token"],
+        timeout=15,
+    )
+    if status != 200:
+        raise RuntimeError(f"ping HTTP {status}: {data}")
+
 
 def main():
     if not SUPERVISOR_TOKEN:
@@ -334,14 +345,21 @@ def main():
         f"BackupHub Agent {VERSION} startad för {state.get('name', 'Home Assistant')}",
         flush=True,
     )
+    next_full = 0.0
     while True:
         try:
-            heartbeat(state)
-            send_logs(state)
-            print("BackupHub heartbeat/log sync OK", flush=True)
+            now = time.monotonic()
+            if now >= next_full:
+                heartbeat(state)
+                send_logs(state)
+                print("BackupHub heartbeat/log sync OK", flush=True)
+                next_full = time.monotonic() + 300
+            else:
+                ping(state)
+                print("BackupHub ping OK", flush=True)
         except Exception as exc:
             print(f"BackupHub sync failed: {exc}", flush=True)
-        time.sleep(300)
+        time.sleep(30)
 
 
 if __name__ == "__main__":
